@@ -4,8 +4,13 @@
 
 EXTRA_JS_MODULES += [
   "sys/ZenActorsManager.sys.mjs",
+  "sys/ZenCommandLineHandler.sys.mjs",
   "sys/ZenCustomizableUI.sys.mjs",
   "sys/ZenUIMigration.sys.mjs",
+]
+
+XPCOM_MANIFESTS += [
+  "components.conf",
 ]
 
 EXTRA_JS_MODULES.zen.ui += [

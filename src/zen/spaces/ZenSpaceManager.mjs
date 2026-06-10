@@ -750,16 +750,18 @@ class nsZenWorkspaces {
       : [this.#createWorkspaceData("Space", undefined)];
     this.activeWorkspace =
       aWinData.activeZenSpace || this._workspaceCache[0].uuid;
-    if (window._zenInitialWorkspace) {
-      // Set by the `--zen-workspace` command line flag when the window
-      // was opened, see BrowserContentHandler.sys.mjs.
+    const { ZenCommandLineHandler } = ChromeUtils.importESModule(
+      "resource:///modules/ZenCommandLineHandler.sys.mjs"
+    );
+    if (ZenCommandLineHandler.initialWorkspace) {
+      // Set by the `--zen-workspace` command line flag at startup.
       const initialWorkspace = this.resolveWorkspaceFromString(
-        window._zenInitialWorkspace
+        ZenCommandLineHandler.initialWorkspace
       );
       if (initialWorkspace) {
         this.activeWorkspace = initialWorkspace.uuid;
       }
-      delete window._zenInitialWorkspace;
+      ZenCommandLineHandler.initialWorkspace = null;
     }
     let promise = this.#initializeWorkspaces();
     for (const workspace of spacesFromStore) {
